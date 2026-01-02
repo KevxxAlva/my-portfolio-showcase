@@ -13,7 +13,7 @@ export const Footer = () => {
           {/* Copyright */}
           <p className="text-muted-foreground text-sm flex items-center gap-1">
             Hecho con <Heart className="w-4 h-4 text-destructive fill-current" /> por{" "}
-            <span className="gradient-text font-medium">Tu Nombre</span> ©{" "}
+            <span className="gradient-text font-medium">Kevin Alvarez</span> ©{" "}
             {new Date().getFullYear()}
           </p>
 

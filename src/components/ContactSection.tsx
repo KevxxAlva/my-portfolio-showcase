@@ -10,25 +10,25 @@ const contactInfo = [
   {
     icon: Mail,
     label: "Email",
-    value: "tu@email.com",
-    href: "mailto:tu@email.com",
+    value: "kevinja1406@gmail.com",
+    href: "mailto:kevinja1406@gmail.com",
   },
   {
     icon: MapPin,
     label: "Ubicación",
-    value: "Ciudad, País",
+    value: "Valle de la Pascua, Venezuela",
     href: null,
   },
   {
     icon: Phone,
     label: "Teléfono",
-    value: "+1 234 567 890",
-    href: "tel:+1234567890",
+    value: "+58 424-3419858",
+    href: "tel:+584243419858",
   },
 ];
 
 const socialLinks = [
-  { icon: Github, href: "https://github.com/tuusuario", label: "GitHub" },
+  { icon: Github, href: "https://github.com/KevxxAlva", label: "GitHub" },
   { icon: Linkedin, href: "https://linkedin.com/in/tuusuario", label: "LinkedIn" },
   { icon: Twitter, href: "https://twitter.com/tuusuario", label: "Twitter" },
 ];

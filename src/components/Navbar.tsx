@@ -10,9 +10,9 @@ const navLinks = [
 ];
 
 const socialLinks = [
-  { icon: Github, href: "https://github.com/tuusuario", label: "GitHub" },
+  { icon: Github, href: "https://github.com/KevxxAlva", label: "GitHub" },
   { icon: Linkedin, href: "https://linkedin.com/in/tuusuario", label: "LinkedIn" },
-  { icon: Mail, href: "mailto:tu@email.com", label: "Email" },
+  { icon: Mail, href: "kevinja1406@gmail.com", label: "Email" },
 ];
 
 export const Navbar = () => {
