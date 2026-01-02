@@ -1,17 +1,25 @@
 import { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { projects, allTags, type Project } from "@/data/projects";
+import { useProjects } from "@/hooks/useProjects";
+import type { Project } from "@/data/projects";
 import { ProjectCard } from "./ProjectCard";
 import { ProjectModal } from "./ProjectModal";
 
 export const ProjectsSection = () => {
+  const { projects, isLoaded } = useProjects();
   const [activeFilter, setActiveFilter] = useState("Todo");
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+
+  const allTags = useMemo(() => {
+    return ["Todo", ...new Set(projects.flatMap((p) => p.tags))];
+  }, [projects]);
 
   const filteredProjects = useMemo(() => {
     if (activeFilter === "Todo") return projects;
     return projects.filter((project) => project.tags.includes(activeFilter));
-  }, [activeFilter]);
+  }, [activeFilter, projects]);
+
+  if (!isLoaded) return null;
 
   return (
     <section id="proyectos" className="py-24 relative">
