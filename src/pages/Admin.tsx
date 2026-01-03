@@ -74,12 +74,12 @@ const Admin = () => {
       <div className="fixed top-0 right-0 w-[500px] h-[500px] bg-neon-purple/10 rounded-full blur-[150px] pointer-events-none" />
       <div className="fixed bottom-0 left-0 w-[400px] h-[400px] bg-neon-cyan/10 rounded-full blur-[120px] pointer-events-none" />
 
-      <div className="relative z-10 container mx-auto px-6 py-8">
+      <div className="relative z-10 container mx-auto px-4 md:px-6 py-8">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8"
+          className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 mb-8"
         >
           <div className="flex items-center gap-4">
             <Button variant="ghost" size="icon" asChild>
@@ -90,7 +90,9 @@ const Admin = () => {
             <div>
               <div className="flex items-center gap-2">
                 <LayoutDashboard className="h-6 w-6 text-primary" />
-                <h1 className="text-2xl font-bold text-foreground">Panel de Administración</h1>
+                <h1 className="text-xl md:text-2xl font-bold text-foreground transition-colors">
+                  Panel de Administración
+                </h1>
               </div>
               <p className="text-muted-foreground text-sm mt-1">
                 Gestiona tus proyectos del portafolio
@@ -98,11 +100,11 @@ const Admin = () => {
             </div>
           </div>
 
-          <div className="flex gap-3">
+          <div className="flex flex-wrap gap-3 w-full md:w-auto">
             <Button
               variant="outline"
               onClick={handleLogout}
-              className="gap-2"
+              className="gap-2 flex-1 md:flex-none"
             >
               <LogOut className="h-4 w-4" />
               Cerrar Sesión
@@ -112,7 +114,7 @@ const Admin = () => {
                 setEditingProject(null);
                 setShowForm(true);
               }}
-              className="gap-2"
+              className="gap-2 flex-1 md:flex-none"
             >
               <Plus className="h-4 w-4" />
               Nuevo proyecto
@@ -125,27 +127,27 @@ const Admin = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8"
+          className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8"
         >
-          <div className="glass rounded-xl p-4 text-center">
-            <p className="text-3xl font-bold text-foreground">{projects.length}</p>
-            <p className="text-sm text-muted-foreground">Total proyectos</p>
+          <div className="glass rounded-xl p-4 text-center hover-lift">
+            <p className="text-2xl md:text-3xl font-bold text-foreground">{projects.length}</p>
+            <p className="text-xs md:text-sm text-muted-foreground">Total proyectos</p>
           </div>
-          <div className="glass rounded-xl p-4 text-center">
-            <p className="text-3xl font-bold text-primary">{projects.filter((p) => p.destacado).length}</p>
-            <p className="text-sm text-muted-foreground">Destacados</p>
+          <div className="glass rounded-xl p-4 text-center hover-lift">
+            <p className="text-2xl md:text-3xl font-bold text-primary">{projects.filter((p) => p.destacado).length}</p>
+            <p className="text-xs md:text-sm text-muted-foreground">Destacados</p>
           </div>
-          <div className="glass rounded-xl p-4 text-center">
-            <p className="text-3xl font-bold text-foreground">
+          <div className="glass rounded-xl p-4 text-center hover-lift">
+            <p className="text-2xl md:text-3xl font-bold text-foreground">
               {new Set(projects.flatMap((p) => p.tags)).size}
             </p>
-            <p className="text-sm text-muted-foreground">Tags únicos</p>
+            <p className="text-xs md:text-sm text-muted-foreground">Tags únicos</p>
           </div>
-          <div className="glass rounded-xl p-4 text-center">
-            <p className="text-3xl font-bold text-foreground">
+          <div className="glass rounded-xl p-4 text-center hover-lift">
+            <p className="text-2xl md:text-3xl font-bold text-foreground">
               {projects.filter((p) => p.demoLink).length}
             </p>
-            <p className="text-sm text-muted-foreground">Con demo</p>
+            <p className="text-xs md:text-sm text-muted-foreground">Con demo</p>
           </div>
         </motion.div>
 
