@@ -97,14 +97,16 @@ export const Navbar = () => {
         </div>
 
         {/* Mobile Menu Button */}
-        <motion.button
-          className="md:hidden text-foreground p-2"
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          whileTap={{ scale: 0.9 }}
-          aria-label="Toggle menu"
-        >
-          {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-        </motion.button>
+        <div className="md:hidden z-50">
+          <motion.button
+            className="text-foreground p-2"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            whileTap={{ scale: 0.9 }}
+            aria-label="Toggle menu"
+          >
+            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          </motion.button>
+        </div>
       </div>
 
       {/* Mobile Menu */}
