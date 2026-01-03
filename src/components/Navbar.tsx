@@ -56,7 +56,7 @@ export const Navbar = () => {
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
         >
-          <img src="/favicon.ico" alt="Logo" className="h-16 w-16 md:h-20 md:w-20" />
+          <img src="/favicon.ico" alt="Logo" className="h-16 w-16 md:h-18 md:w-18" />
         </motion.a>
 
         {/* Desktop Navigation */}
