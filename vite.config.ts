@@ -21,15 +21,6 @@ export default defineConfig(({ mode }) => ({
       output: {
         manualChunks(id) {
           if (id.includes("node_modules")) {
-            if (id.includes("react") || id.includes("react-dom") || id.includes("react-router-dom")) {
-              return "react-vendor";
-            }
-            if (id.includes("@radix-ui") || id.includes("lucide-react") || id.includes("framer-motion")) {
-              return "ui-vendor";
-            }
-            if (id.includes("@supabase")) {
-              return "supabase-vendor";
-            }
             return "vendor";
           }
         },
