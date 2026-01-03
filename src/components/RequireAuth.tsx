@@ -9,6 +9,9 @@ export const RequireAuth = ({ children }: { children: JSX.Element }) => {
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       setIsAuthenticated(!!session);
+    }).catch((error) => {
+      console.error("Auth check failed:", error);
+      setIsAuthenticated(false);
     });
 
     const {
