@@ -62,7 +62,7 @@ export const ProjectsSection = () => {
               className={`px-4 py-2 rounded-lg font-medium text-sm transition-all duration-300 ${
                 activeFilter === tag
                   ? "bg-primary text-primary-foreground neon-glow"
-                  : "glass text-muted-foreground hover:text-foreground hover:bg-secondary"
+                  : "glass text-muted-foreground hover:border-primary hover:text-primary"
               }`}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
