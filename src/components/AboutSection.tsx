@@ -5,17 +5,17 @@ const skills = [
   {
     category: "Frontend",
     icon: Code2,
-    items: ["React", "TypeScript", "Next.js", "Tailwind CSS", "Framer Motion"],
+    items: ["HTML", "CSS", "JavaScript", "React", "TypeScript", "Tailwind CSS", "Framer Motion"],
   },
   {
     category: "Backend",
     icon: Database,
-    items: ["Node.js", "Express", "PostgreSQL", "MongoDB", "Prisma"],
+    items: ["Node.js", "PostgreSQL", "MySQL"],
   },
   {
     category: "Herramientas",
     icon: Terminal,
-    items: ["Git", "Docker", "Vite", "Jest", "CI/CD"],
+    items: ["Git", "Github", "Vite"],
   },
 ];
 
