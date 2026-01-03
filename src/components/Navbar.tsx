@@ -52,16 +52,36 @@ export const Navbar = () => {
 
   const scrollToSection = (href: string) => {
     const element = document.querySelector(href);
-    if (element) {
-      const headerOffset = 100;
-      const elementPosition = element.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.scrollY - headerOffset;
+    if (!element) return;
 
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: "smooth",
-      });
-    }
+    const headerOffset = 80;
+    const elementPosition = element.getBoundingClientRect().top;
+    const startPosition = window.scrollY;
+    // Calculate exact target position
+    const targetPosition = elementPosition + startPosition - headerOffset;
+    const distance = targetPosition - startPosition;
+    const duration = 1500; // Duration in ms - adjustable for slower/faster scroll
+    let start: number | null = null;
+
+    // Easing function for smooth acceleration and deceleration
+    const easeInOutCubic = (t: number) => {
+      return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+    };
+
+    const animation = (currentTime: number) => {
+      if (start === null) start = currentTime;
+      const timeElapsed = currentTime - start;
+      const progress = Math.min(timeElapsed / duration, 1);
+      const ease = easeInOutCubic(progress);
+
+      window.scrollTo(0, startPosition + distance * ease);
+
+      if (timeElapsed < duration) {
+        requestAnimationFrame(animation);
+      }
+    };
+
+    requestAnimationFrame(animation);
     setIsMobileMenuOpen(false);
   };
 
