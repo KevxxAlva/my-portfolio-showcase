@@ -63,9 +63,37 @@ export const Hero = () => {
 
   const scrollToProjects = () => {
     const element = document.querySelector("#proyectos");
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-    }
+    if (!element) return;
+
+    const headerOffset = 80;
+    const elementPosition = element.getBoundingClientRect().top;
+    const startPosition = window.scrollY;
+    
+    // Calculate exact target position
+    const targetPosition = elementPosition + startPosition - headerOffset;
+    const distance = targetPosition - startPosition;
+    const duration = 1500; // Duration in ms
+    let start: number | null = null;
+
+    // Easing function
+    const easeInOutCubic = (t: number) => {
+      return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+    };
+
+    const animation = (currentTime: number) => {
+      if (start === null) start = currentTime;
+      const timeElapsed = currentTime - start;
+      const progress = Math.min(timeElapsed / duration, 1);
+      const ease = easeInOutCubic(progress);
+
+      window.scrollTo(0, startPosition + distance * ease);
+
+      if (timeElapsed < duration) {
+        requestAnimationFrame(animation);
+      }
+    };
+
+    requestAnimationFrame(animation);
   };
 
   return (
