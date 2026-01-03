@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Send, Mail, MapPin, Phone, Github, Linkedin, Twitter } from "lucide-react";
+import { Send, Mail, MapPin, Phone, Facebook, Instagram, Twitter } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -28,9 +28,9 @@ const contactInfo = [
 ];
 
 const socialLinks = [
-  { icon: Github, href: "https://github.com/KevxxAlva", label: "GitHub" },
-  { icon: Linkedin, href: "https://linkedin.com/in/tuusuario", label: "LinkedIn" },
-  { icon: Twitter, href: "https://twitter.com/tuusuario", label: "Twitter" },
+  { icon: Facebook, href: "https://www.facebook.com/kevxLx", label: "Facebook" },
+  { icon: Instagram, href: "https://www.instagram.com/kevin_444r/", label: "Instagram" },
+  { icon: Twitter, href: "https://twitter.com/kevinja1406", label: "Twitter" },
 ];
 
 export const ContactSection = () => {
