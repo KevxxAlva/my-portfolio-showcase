@@ -83,11 +83,11 @@ export const useProjects = () => {
         setProjects([newProject, ...projects]);
         return newProject;
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error adding project:', error);
       toast({
         title: "Error",
-        description: "No se pudo crear el proyecto.",
+        description: `No se pudo crear el proyecto: ${error.message || error.details || "Error desconocido"}`,
         variant: "destructive"
       });
     }

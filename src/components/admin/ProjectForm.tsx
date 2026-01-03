@@ -1,12 +1,14 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Save, X, ImageIcon } from "lucide-react";
+import { Save, X, ImageIcon, UploadCloud } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import type { Project } from "@/data/projects";
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
 
 interface ProjectFormProps {
   project?: Project | null;
@@ -25,6 +27,9 @@ export const ProjectForm = ({ project, onSave, onCancel }: ProjectFormProps) => 
     demoLink: "",
     destacado: false,
   });
+  
+  const [uploading, setUploading] = useState(false);
+  const { toast } = useToast();
 
   useEffect(() => {
     if (project) {
@@ -40,6 +45,41 @@ export const ProjectForm = ({ project, onSave, onCancel }: ProjectFormProps) => 
       });
     }
   }, [project]);
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    try {
+      setUploading(true);
+      if (!e.target.files || e.target.files.length === 0) {
+        throw new Error('Debes seleccionar una imagen para subir.');
+      }
+
+      const file = e.target.files[0];
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${Math.random()}.${fileExt}`;
+      const filePath = `${fileName}`;
+
+      const { error: uploadError } = await supabase.storage
+        .from('project-images')
+        .upload(filePath, file);
+
+      if (uploadError) {
+        throw uploadError;
+      }
+
+      const { data } = supabase.storage.from('project-images').getPublicUrl(filePath);
+      
+      setFormData({ ...formData, imagenUrl: data.publicUrl });
+      toast({ title: "Imagen subida", description: "La imagen se ha subido correctamente." });
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message,
+        variant: "destructive",
+      });
+    } finally {
+      setUploading(false);
+    }
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -116,34 +156,74 @@ export const ProjectForm = ({ project, onSave, onCancel }: ProjectFormProps) => 
           />
         </div>
 
-        <div className="space-y-2">
-          <Label htmlFor="imagenUrl">URL de imagen</Label>
-          <div className="flex gap-2">
+          <Label htmlFor="imagenUrl">Imagen del Proyecto</Label>
+          <div className="space-y-3">
             <Input
               id="imagenUrl"
               value={formData.imagenUrl}
               onChange={(e) => setFormData({ ...formData, imagenUrl: e.target.value })}
               placeholder="https://ejemplo.com/imagen.jpg"
+              className="font-mono text-xs"
             />
-            {formData.imagenUrl && (
-              <div className="h-10 w-10 rounded-lg overflow-hidden border border-border flex-shrink-0">
-                <img
-                  src={formData.imagenUrl}
-                  alt="Preview"
-                  className="h-full w-full object-cover"
-                  onError={(e) => {
-                    (e.target as HTMLImageElement).src = "/placeholder.svg";
-                  }}
-                />
-              </div>
-            )}
-            {!formData.imagenUrl && (
-              <div className="h-10 w-10 rounded-lg border border-border flex items-center justify-center flex-shrink-0">
-                <ImageIcon className="h-5 w-5 text-muted-foreground" />
-              </div>
-            )}
+            
+            <div className="relative">
+              <input
+                type="file"
+                id="image-upload"
+                className="hidden"
+                onChange={handleImageUpload}
+                accept="image/*"
+                disabled={uploading}
+              />
+              <label
+                htmlFor="image-upload"
+                className={`
+                  relative flex flex-col items-center justify-center w-full h-48 
+                  border-2 border-dashed rounded-xl cursor-pointer transition-all
+                  ${uploading ? "opacity-50 cursor-not-allowed" : "hover:border-primary hover:bg-primary/5"}
+                  ${formData.imagenUrl ? "border-primary/50" : "border-muted-foreground/25"}
+                `}
+              >
+                {formData.imagenUrl ? (
+                  <>
+                    <img
+                      src={formData.imagenUrl}
+                      alt="Preview"
+                      className="w-full h-full object-cover rounded-lg"
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).src = "/placeholder.svg";
+                      }}
+                    />
+                    <div className="absolute inset-0 flex items-center justify-center bg-black/60 opacity-0 hover:opacity-100 transition-opacity rounded-lg">
+                      <div className="text-white flex flex-col items-center gap-2">
+                        <UploadCloud className="h-8 w-8" />
+                        <span className="text-sm font-medium">Cambiar imagen</span>
+                      </div>
+                    </div>
+                  </>
+                ) : (
+                  <div className="flex flex-col items-center gap-2 text-muted-foreground p-4 text-center">
+                    <div className="p-4 rounded-full bg-secondary/50">
+                      <ImageIcon className="h-8 w-8" />
+                    </div>
+                    <div>
+                      <span className="font-semibold text-foreground">Click para subir</span>
+                      <p className="text-xs mt-1">o arrastra y suelta aquí</p>
+                    </div>
+                  </div>
+                )}
+                
+                {uploading && (
+                  <div className="absolute inset-0 flex items-center justify-center bg-background/80 backdrop-blur-sm rounded-xl">
+                    <div className="flex flex-col items-center gap-2 animate-pulse">
+                      <UploadCloud className="h-8 w-8 text-primary" />
+                      <span className="text-sm font-medium">Subiendo...</span>
+                    </div>
+                  </div>
+                )}
+              </label>
+            </div>
           </div>
-        </div>
 
         <div className="space-y-2">
           <Label htmlFor="repoLink">Link del repositorio</Label>
