@@ -91,26 +91,30 @@ export const ProjectModal = ({ project, isOpen, onClose }: ProjectModalProps) =>
 
                 {/* Action Buttons */}
                 <div className="flex flex-col sm:flex-row gap-3 pb-2">
-                  <Button variant="hero" size="lg" className="flex-1 w-full" asChild>
-                    <a
-                      href={project.demoLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <ExternalLink className="mr-2 h-4 w-4" />
-                      Ver Demo
-                    </a>
-                  </Button>
-                  <Button variant="glass" size="lg" className="flex-1 w-full" asChild>
-                    <a
-                      href={project.repoLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <Github className="mr-2 h-4 w-4" />
-                      Ver Código
-                    </a>
-                  </Button>
+                  {project.demoLink && (
+                    <Button variant="hero" size="lg" className="flex-1 w-full" asChild>
+                      <a
+                        href={project.demoLink}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <ExternalLink className="mr-2 h-4 w-4" />
+                        Ver Demo
+                      </a>
+                    </Button>
+                  )}
+                  {project.repoLink && (
+                    <Button variant="glass" size="lg" className="flex-1 w-full" asChild>
+                      <a
+                        href={project.repoLink}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <Github className="mr-2 h-4 w-4" />
+                        Ver Código
+                      </a>
+                    </Button>
+                  )}
                 </div>
               </div>
             </div>

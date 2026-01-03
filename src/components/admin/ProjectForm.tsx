@@ -39,8 +39,8 @@ export const ProjectForm = ({ project, onSave, onCancel }: ProjectFormProps) => 
         descripcionCompleta: project.descripcionCompleta,
         tags: project.tags.join(", "),
         imagenUrl: project.imagenUrl,
-        repoLink: project.repoLink,
-        demoLink: project.demoLink,
+        repoLink: project.repoLink || "",
+        demoLink: project.demoLink || "",
         destacado: project.destacado || false,
       });
     }
@@ -89,8 +89,8 @@ export const ProjectForm = ({ project, onSave, onCancel }: ProjectFormProps) => 
       descripcionCompleta: formData.descripcionCompleta.trim(),
       tags: formData.tags.split(",").map((t) => t.trim()).filter(Boolean),
       imagenUrl: formData.imagenUrl.trim() || "/placeholder.svg",
-      repoLink: formData.repoLink.trim(),
-      demoLink: formData.demoLink.trim(),
+      repoLink: formData.repoLink.trim() || null,
+      demoLink: formData.demoLink.trim() || null,
       destacado: formData.destacado,
     });
   };

@@ -16,14 +16,14 @@ export const ProjectCard = ({ project, index, onOpenModal }: ProjectCardProps) =
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, scale: 0.9 }}
       transition={{ duration: 0.3, delay: index * 0.1 }}
-      whileHover={{ y: -8 }}
-      className="group relative glass rounded-xl overflow-hidden hover-lift cursor-pointer"
+      whileHover={{ y: -5 }}
+      className="group relative bg-[#09090b] border border-white/10 rounded-2xl overflow-hidden cursor-pointer hover:border-primary/30 transition-colors"
       onClick={() => onOpenModal(project)}
     >
       {/* Featured Badge */}
       {project.destacado && (
-        <div className="absolute top-4 right-4 z-10">
-          <div className="flex items-center gap-1 bg-primary/20 text-primary px-2 py-1 rounded-full text-xs font-medium backdrop-blur-sm">
+        <div className="absolute top-3 right-3 z-10">
+          <div className="flex items-center gap-1 bg-red-500/10 text-red-500 px-3 py-1 rounded-full text-xs font-bold backdrop-blur-md border border-red-500/20 shadow-sm">
             <Star className="w-3 h-3 fill-current" />
             Destacado
           </div>
@@ -31,74 +31,70 @@ export const ProjectCard = ({ project, index, onOpenModal }: ProjectCardProps) =
       )}
 
       {/* Image Container */}
-      <div className="relative h-48 overflow-hidden bg-secondary/50">
+      <div className="relative h-52 overflow-hidden">
         <img
           src={project.imagenUrl}
           alt={project.titulo}
-          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-card via-transparent to-transparent opacity-60" />
-        
-        {/* Overlay on hover */}
-        <div className="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#09090b] via-transparent to-transparent opacity-90" />
       </div>
 
       {/* Content */}
-      <div className="p-6">
-        <h3 className="text-xl font-semibold text-foreground mb-2 group-hover:text-primary transition-colors">
+      <div className="p-6 pt-2">
+        <h3 className="text-xl font-bold text-white mb-2 leading-tight group-hover:text-primary transition-colors">
           {project.titulo}
         </h3>
         
-        <p className="text-muted-foreground text-sm mb-4 line-clamp-2">
+        <p className="text-zinc-400 text-sm mb-6 line-clamp-2">
           {project.descripcion}
         </p>
 
         {/* Tags */}
-        <div className="flex flex-wrap gap-2 mb-4">
+        <div className="flex flex-wrap gap-2 mb-6">
           {project.tags.slice(0, 3).map((tag) => (
             <span
               key={tag}
-              className="text-xs px-2 py-1 rounded-md bg-secondary text-secondary-foreground font-mono"
+              className="text-xs px-3 py-1 rounded-full bg-zinc-800/80 text-zinc-300 font-medium border border-white/5"
             >
               {tag}
             </span>
           ))}
           {project.tags.length > 3 && (
-            <span className="text-xs px-2 py-1 rounded-md bg-secondary text-muted-foreground font-mono">
+            <span className="text-xs px-3 py-1 rounded-full bg-zinc-800/80 text-zinc-400 font-medium border border-white/5">
               +{project.tags.length - 3}
             </span>
           )}
         </div>
 
         {/* Links */}
-        <div className="flex gap-3">
-          <motion.a
-            href={project.repoLink}
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={(e) => e.stopPropagation()}
-            className="flex items-center gap-1 text-sm text-muted-foreground hover:text-primary transition-colors"
-            whileHover={{ x: 2 }}
-          >
-            <Github className="w-4 h-4" />
-            Código
-          </motion.a>
-          <motion.a
-            href={project.demoLink}
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={(e) => e.stopPropagation()}
-            className="flex items-center gap-1 text-sm text-muted-foreground hover:text-primary transition-colors"
-            whileHover={{ x: 2 }}
-          >
-            <ExternalLink className="w-4 h-4" />
-            Demo
-          </motion.a>
+        <div className="flex gap-4 mt-4">
+          {project.repoLink && (
+            <div
+              className="flex items-center gap-2 text-xs text-zinc-400 group/link hover:text-white transition-colors"
+              onClick={(e) => {
+                e.stopPropagation();
+                window.open(project.repoLink, '_blank');
+              }}
+            >
+              <Github className="w-4 h-4 transition-transform group-hover/link:-translate-y-0.5" />
+              Código
+            </div>
+          )}
+          {project.demoLink && (
+            <div
+              className="flex items-center gap-2 text-xs text-zinc-400 group/link hover:text-white transition-colors"
+              onClick={(e) => {
+                e.stopPropagation();
+                window.open(project.demoLink, '_blank');
+              }}
+            >
+              <ExternalLink className="w-4 h-4 transition-transform group-hover/link:-translate-y-0.5" />
+              Demo
+            </div>
+          )}
         </div>
       </div>
-
-      {/* Bottom Glow Effect */}
-      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
     </motion.article>
   );
 };

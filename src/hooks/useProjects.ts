@@ -98,11 +98,11 @@ export const useProjects = () => {
       const dbUpdates: any = {};
       if (updates.titulo) dbUpdates.titulo = updates.titulo;
       if (updates.descripcion) dbUpdates.descripcion = updates.descripcion;
-      if (updates.descripcionCompleta) dbUpdates.descripcion_completa = updates.descripcionCompleta;
-      if (updates.tags) dbUpdates.tags = updates.tags;
-      if (updates.imagenUrl) dbUpdates.imagen_url = updates.imagenUrl;
-      if (updates.repoLink) dbUpdates.repo_link = updates.repoLink;
-      if (updates.demoLink) dbUpdates.demo_link = updates.demoLink;
+      if (updates.descripcionCompleta !== undefined) dbUpdates.descripcion_completa = updates.descripcionCompleta;
+      if (updates.tags !== undefined) dbUpdates.tags = updates.tags;
+      if (updates.imagenUrl !== undefined) dbUpdates.imagen_url = updates.imagenUrl;
+      if (updates.repoLink !== undefined) dbUpdates.repo_link = updates.repoLink;
+      if (updates.demoLink !== undefined) dbUpdates.demo_link = updates.demoLink;
       if (updates.destacado !== undefined) dbUpdates.destacado = updates.destacado;
 
       const { error } = await supabase
