@@ -71,7 +71,7 @@ export const ProjectCard = ({ project, index, onOpenModal }: ProjectCardProps) =
         <div className="flex gap-4 mt-4">
           {project.repoLink && (
             <div
-              className="flex items-center gap-2 text-xs text-slate-500 dark:text-zinc-400 group/link hover:text-slate-900 dark:hover:text-white transition-colors"
+              className="flex items-center gap-2 text-xs text-slate-500 dark:text-zinc-400 group/link hover:text-[#ff0000] dark:hover:text-[#ff0000] transition-colors"
               onClick={(e) => {
                 e.stopPropagation();
                 window.open(project.repoLink, '_blank');
@@ -83,7 +83,7 @@ export const ProjectCard = ({ project, index, onOpenModal }: ProjectCardProps) =
           )}
           {project.demoLink && (
             <div
-              className="flex items-center gap-2 text-xs text-slate-500 dark:text-zinc-400 group/link hover:text-slate-900 dark:hover:text-white transition-colors"
+              className="flex items-center gap-2 text-xs text-slate-500 dark:text-zinc-400 group/link hover:text-[#ff0000] dark:hover:text-[#ff0000] transition-colors"
               onClick={(e) => {
                 e.stopPropagation();
                 window.open(project.demoLink, '_blank');
