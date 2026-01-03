@@ -22,20 +22,21 @@ export const ProjectModal = ({ project, isOpen, onClose }: ProjectModalProps) =>
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="fixed inset-0 bg-background/80 backdrop-blur-sm z-50"
+            className="fixed inset-0 bg-background/80 backdrop-blur-sm z-[9990]"
           />
 
-          {/* Modal */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.9, y: 20 }}
-            transition={{ type: "spring", damping: 25, stiffness: 300 }}
-            className="fixed inset-4 md:inset-auto md:top-1/2 md:left-1/2 md:-translate-x-1/2 md:-translate-y-1/2 md:max-w-2xl md:w-full z-50"
-          >
-            <div className="glass-strong rounded-2xl overflow-hidden max-h-[90vh] flex flex-col">
+          {/* Modal Container */}
+          <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 pointer-events-none">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: 20 }}
+              transition={{ type: "spring", damping: 25, stiffness: 300 }}
+              className="w-full max-w-2xl pointer-events-auto"
+            >
+            <div className="glass-strong rounded-2xl overflow-hidden max-h-[85vh] flex flex-col w-full">
               {/* Header Image */}
-              <div className="relative h-48 md:h-64 overflow-hidden">
+              <div className="relative h-40 md:h-64 flex-shrink-0">
                 <img
                   src={project.imagenUrl}
                   alt={project.titulo}
@@ -46,7 +47,7 @@ export const ProjectModal = ({ project, isOpen, onClose }: ProjectModalProps) =>
                 {/* Close Button */}
                 <motion.button
                   onClick={onClose}
-                  className="absolute top-4 right-4 p-2 rounded-full glass text-foreground hover:bg-secondary transition-colors"
+                  className="absolute top-4 right-4 p-2 rounded-full glass text-foreground hover:bg-secondary transition-colors z-10"
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.9 }}
                   aria-label="Cerrar modal"
@@ -56,17 +57,17 @@ export const ProjectModal = ({ project, isOpen, onClose }: ProjectModalProps) =>
 
                 {/* Featured Badge */}
                 {project.destacado && (
-                  <div className="absolute top-4 left-4">
+                  <div className="absolute top-4 left-4 z-10">
                     <div className="flex items-center gap-1 bg-primary/20 text-primary px-3 py-1.5 rounded-full text-sm font-medium backdrop-blur-sm">
                       <Star className="w-4 h-4 fill-current" />
-                      Proyecto Destacado
+                      <span className="hidden sm:inline">Proyecto Destacado</span>
                     </div>
                   </div>
                 )}
               </div>
 
               {/* Content */}
-              <div className="p-6 md:p-8 overflow-y-auto">
+              <div className="p-6 overflow-y-auto custom-scrollbar">
                 <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-4">
                   {project.titulo}
                 </h2>
@@ -76,7 +77,7 @@ export const ProjectModal = ({ project, isOpen, onClose }: ProjectModalProps) =>
                   {project.tags.map((tag) => (
                     <span
                       key={tag}
-                      className="text-sm px-3 py-1 rounded-lg bg-secondary text-secondary-foreground font-mono"
+                      className="text-xs sm:text-sm px-2 sm:px-3 py-1 rounded-lg bg-secondary text-secondary-foreground font-mono"
                     >
                       {tag}
                     </span>
@@ -84,36 +85,37 @@ export const ProjectModal = ({ project, isOpen, onClose }: ProjectModalProps) =>
                 </div>
 
                 {/* Description */}
-                <p className="text-muted-foreground leading-relaxed mb-8">
+                <p className="text-muted-foreground leading-relaxed mb-8 text-sm sm:text-base">
                   {project.descripcionCompleta}
                 </p>
 
                 {/* Action Buttons */}
-                <div className="flex flex-col sm:flex-row gap-3">
-                  <Button variant="hero" size="lg" className="flex-1" asChild>
+                <div className="flex flex-col sm:flex-row gap-3 pb-2">
+                  <Button variant="hero" size="lg" className="flex-1 w-full" asChild>
                     <a
                       href={project.demoLink}
                       target="_blank"
                       rel="noopener noreferrer"
                     >
                       <ExternalLink className="mr-2 h-4 w-4" />
-                      Ver Demo en Vivo
+                      Ver Demo
                     </a>
                   </Button>
-                  <Button variant="glass" size="lg" className="flex-1" asChild>
+                  <Button variant="glass" size="lg" className="flex-1 w-full" asChild>
                     <a
                       href={project.repoLink}
                       target="_blank"
                       rel="noopener noreferrer"
                     >
                       <Github className="mr-2 h-4 w-4" />
-                      Ver Código Fuente
+                      Ver Código
                     </a>
                   </Button>
                 </div>
               </div>
             </div>
-          </motion.div>
+            </motion.div>
+          </div>
         </>
       )}
     </AnimatePresence>
