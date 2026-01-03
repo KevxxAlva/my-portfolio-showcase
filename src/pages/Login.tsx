@@ -1,11 +1,11 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
-import { Lock } from "lucide-react";
+import { Lock, ArrowLeft } from "lucide-react";
 import { motion } from "framer-motion";
 
 const Login = () => {
@@ -41,7 +41,15 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background px-4">
+    <div className="min-h-screen flex items-center justify-center bg-background px-4 relative">
+      <div className="absolute top-4 left-4 z-20">
+        <Button variant="ghost" asChild className="text-muted-foreground hover:text-primary transition-colors">
+          <Link to="/" className="flex items-center gap-2">
+            <ArrowLeft className="h-4 w-4" />
+            Volver al inicio
+          </Link>
+        </Button>
+      </div>
       <div className="absolute inset-0 bg-grid opacity-20 pointer-events-none" />
       
       <motion.div 
