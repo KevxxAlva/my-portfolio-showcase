@@ -122,7 +122,7 @@ export const Hero = () => {
             transition={{ duration: 0.5 }}
             className="text-primary font-mono mb-4 px-2"
           >
-            ¡Hola! 👋 Mi nombre es
+            {"<¡Hola! 👋 Mi nombre es />"}
           </motion.p>
 
           {/* Name */}
