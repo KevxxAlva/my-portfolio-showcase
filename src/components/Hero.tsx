@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowDown, Github, Linkedin, FileText } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 // Custom Discord Icon
 const Discord = (props: React.SVGProps<SVGSVGElement>) => (
@@ -96,6 +97,8 @@ export const Hero = () => {
     requestAnimationFrame(animation);
   };
 
+  const { t } = useLanguage();
+
   return (
     <section
       id="hero"
@@ -122,7 +125,7 @@ export const Hero = () => {
             transition={{ duration: 0.5 }}
             className="text-primary font-mono mb-4 px-2"
           >
-            {"<¡Hola! 👋 Mi nombre es />"}
+            {`<${t("hero_greeting")} />`}
           </motion.p>
 
           {/* Name */}
@@ -156,9 +159,7 @@ export const Hero = () => {
             transition={{ duration: 0.5, delay: 0.3 }}
             className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-10 px-4"
           >
-            Desarrollo experiencias digitales excepcionales. Especializado en
-            crear aplicaciones web modernas, escalables y con interfaces que
-            enamoran.
+            {t("hero_description")}
           </motion.p>
 
           {/* CTA Buttons */}
@@ -174,7 +175,7 @@ export const Hero = () => {
               onClick={scrollToProjects}
               className="group"
             >
-              Ver Proyectos
+              {t("hero_cta_projects")}
               <ArrowDown className="ml-2 h-4 w-4 group-hover:translate-y-1 transition-transform" />
             </Button>
 

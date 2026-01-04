@@ -1,12 +1,13 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import emailjs from "@emailjs/browser";
 import { motion } from "framer-motion";
-import { Send, Mail, MapPin, Phone, Facebook, Instagram, Twitter } from "lucide-react";
+import { Send, Mail, MapPin, Facebook, Instagram } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 // Custom Whatsapp Icon
 const Whatsapp = (props: React.SVGProps<SVGSVGElement>) => (
@@ -27,28 +28,7 @@ const Whatsapp = (props: React.SVGProps<SVGSVGElement>) => (
   </svg>
 );
 
-const contactInfo = [
-  {
-    icon: Mail,
-    label: "Email",
-    value: "kevinja1406@gmail.com",
-    href: "mailto:kevinja1406@gmail.com",
-  },
-  {
-    icon: MapPin,
-    label: "Ubicación",
-    value: "Valle de la Pascua, Venezuela",
-    href: null,
-  },
-  {
-    icon: Whatsapp,
-    label: "WhatsApp",
-    value: "+58 424-3419858",
-    href: "https://wa.me/584243419858",
-  },
-];
-
-// Custom Discord Icon since it's not in standard Lucide import
+// Custom Discord Icon
 const Discord = (props: React.SVGProps<SVGSVGElement>) => (
   <svg
     {...props}
@@ -104,21 +84,34 @@ export const ContactSection = () => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
+  const { t } = useLanguage();
+
+  const contactInfo = [
+    {
+      icon: Mail,
+      label: "Email",
+      value: "kevinja1406@gmail.com",
+      href: "mailto:kevinja1406@gmail.com",
+    },
+    {
+      icon: MapPin,
+      label: t("contact_location"),
+      value: "Valle de la Pascua, Venezuela",
+      href: null,
+    },
+    {
+      icon: Whatsapp,
+      label: "WhatsApp",
+      value: "+58 424-3419858",
+      href: "https://wa.me/584243419858",
+    },
+  ];
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Debug logging
-    console.log("Starting submission...");
-    console.log("Service ID (first 4):", import.meta.env.VITE_EMAILJS_SERVICE_ID?.substring(0, 4));
-    console.log("Template ID (first 4):", import.meta.env.VITE_EMAILJS_TEMPLATE_ID?.substring(0, 4));
-    console.log("Public Key (first 4):", import.meta.env.VITE_EMAILJS_PUBLIC_KEY?.substring(0, 4));
-    // Check for accidental quotes in loaded values
-    if (import.meta.env.VITE_EMAILJS_SERVICE_ID?.startsWith('"')) console.warn("Service ID has quotes!");
-
     try {
-      // Insert into Supabase
       const { error: supabaseError } = await supabase
         .from('contact_messages')
         .insert([
@@ -129,12 +122,8 @@ export const ContactSection = () => {
           }
         ]);
 
-      if (supabaseError) {
-        console.error('Supabase error:', supabaseError);
-        // We log it but continue to email
-      }
+      if (supabaseError) console.error('Supabase error:', supabaseError);
 
-      // EmailJS configuration
       const YOUR_SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID;
       const YOUR_TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
       const YOUR_PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
@@ -143,7 +132,7 @@ export const ContactSection = () => {
          throw new Error("Faltan las credenciales de EmailJS en el archivo .env");
       }
 
-      const emailResponse = await emailjs.send(
+      await emailjs.send(
         YOUR_SERVICE_ID,
         YOUR_TEMPLATE_ID,
         {
@@ -154,12 +143,10 @@ export const ContactSection = () => {
         },
         YOUR_PUBLIC_KEY
       );
-      
-      console.log("EmailJS Response:", emailResponse);
 
       toast({
-        title: "¡Mensaje enviado!",
-        description: "Gracias por contactarme. Te responderé pronto.",
+        title: t("contact_success_title"),
+        description: t("contact_success_desc"),
       });
 
       setFormData({ nombre: "", email: "", mensaje: "" });
@@ -168,7 +155,7 @@ export const ContactSection = () => {
       const errorMessage = error?.text || error?.message || "Error desconocido";
       
       toast({
-        title: "Error al enviar",
+        title: t("contact_error_title"),
         description: `Detalle: ${errorMessage}`,
         variant: "destructive"
       });
@@ -192,14 +179,13 @@ export const ContactSection = () => {
           transition={{ duration: 0.5 }}
           className="text-center mb-16"
         >
-          <p className="text-primary font-mono mb-4">{"<Contacto />"}</p>
+          <p className="text-primary font-mono mb-4">{`<${t("nav_contact")} />`}</p>
           <h2 className="text-4xl md:text-5xl font-bold mb-4">
-            <span className="text-foreground">¿Tienes un </span>
-            <span className="gradient-text">Proyecto?</span>
+            <span className="text-foreground">{t("contact_title").split(" ")[0]} </span>
+            <span className="gradient-text">{t("contact_title").split(" ").slice(1).join(" ")}</span>
           </h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
-            Estoy siempre abierto a nuevas oportunidades y colaboraciones.
-            ¡Hablemos sobre cómo puedo ayudarte!
+            {t("contact_subtitle")}
           </p>
         </motion.div>
 
@@ -214,7 +200,7 @@ export const ContactSection = () => {
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
                 <label htmlFor="nombre" className="block text-sm font-medium text-foreground mb-2">
-                  Nombre
+                  {t("contact_name")}
                 </label>
                 <Input
                   id="nombre"
@@ -247,7 +233,7 @@ export const ContactSection = () => {
 
               <div>
                 <label htmlFor="mensaje" className="block text-sm font-medium text-foreground mb-2">
-                  Mensaje
+                  {t("contact_message")}
                 </label>
                 <Textarea
                   id="mensaje"
@@ -270,10 +256,10 @@ export const ContactSection = () => {
                 disabled={isSubmitting}
               >
                 {isSubmitting ? (
-                  "Enviando..."
+                  t("contact_sending")
                 ) : (
                   <>
-                    Enviar Mensaje
+                    {t("contact_send")}
                     <Send className="ml-2 h-4 w-4" />
                   </>
                 )}
@@ -323,7 +309,7 @@ export const ContactSection = () => {
             {/* Social Links */}
             <div className="glass rounded-xl p-6">
               <h3 className="text-lg font-semibold text-foreground mb-4">
-                Sígueme en redes
+                {t("contact_social_follow")}
               </h3>
               <div className="flex gap-4">
                 {socialLinks.map((link) => (
@@ -356,7 +342,7 @@ export const ContactSection = () => {
                 <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
               </span>
               <span className="text-muted-foreground">
-                Disponible para nuevos proyectos
+                {t("contact_available")}
               </span>
             </motion.div>
           </motion.div>

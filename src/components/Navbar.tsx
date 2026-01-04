@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Menu, X, Github, Linkedin, Mail } from "lucide-react";
 import { ThemeToggle } from "./ThemeToggle";
+import { LanguageToggle } from "./LanguageToggle";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 // Custom Discord Icon
 const Discord = ({ size = 24, ...props }: { size?: number | string } & React.SVGProps<SVGSVGElement>) => (
@@ -25,13 +27,6 @@ const Discord = ({ size = 24, ...props }: { size?: number | string } & React.SVG
   </svg>
 );
 
-const navLinks = [
-  { name: "Inicio", href: "#hero" },
-  { name: "Proyectos", href: "#proyectos" },
-  { name: "Sobre mí", href: "#about" },
-  { name: "Contacto", href: "#contacto" },
-];
-
 const socialLinks = [
   { icon: Github, href: "https://github.com/KevxxAlva", label: "GitHub" },
   { icon: Discord, href: "https://discord.com/users/751454536031404062", label: "Discord" },
@@ -41,6 +36,14 @@ const socialLinks = [
 export const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { t } = useLanguage();
+
+  const navLinks = [
+    { name: t("nav_home"), href: "#hero" },
+    { name: t("nav_projects"), href: "#proyectos" },
+    { name: t("nav_about"), href: "#about" },
+    { name: t("nav_contact"), href: "#contacto" },
+  ];
 
   useEffect(() => {
     const handleScroll = () => {
@@ -131,6 +134,7 @@ export const Navbar = () => {
         {/* Social Links - Desktop */}
         <div className="hidden md:flex items-center gap-4">
           <ThemeToggle />
+          <LanguageToggle />
           {socialLinks.map((link) => (
             <motion.a
               key={link.label}
@@ -199,7 +203,10 @@ export const Navbar = () => {
             </a>
           ))}
           <div className="flex items-center justify-between pt-4 border-t border-border">
-            <ThemeToggle />
+            <div className="flex gap-2">
+              <ThemeToggle />
+              <LanguageToggle />
+            </div>
             <div className="flex gap-4">
               {socialLinks.map((link) => (
                 <a

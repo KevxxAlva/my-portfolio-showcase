@@ -1,32 +1,35 @@
 import { motion } from "framer-motion";
 import { Code2, Palette, Zap, Database, Globe, Terminal } from "lucide-react";
-
-const skills = [
-  {
-    category: "Frontend",
-    icon: Code2,
-    items: ["HTML", "CSS", "JavaScript", "React", "TypeScript", "Tailwind CSS", "Framer Motion"],
-  },
-  {
-    category: "Backend",
-    icon: Database,
-    items: ["Node.js", "PostgreSQL", "MySQL", "Supabase"],
-  },
-  {
-    category: "Herramientas",
-    icon: Terminal,
-    items: ["Git", "Github", "Vite"],
-  },
-];
-
-const stats = [
-  { value: "1+", label: "Años de experiencia" },
-  { value: "3+", label: "Proyectos completados" },
-  { value: "2+", label: "Clientes satisfechos" },
-  { value: "∞", label: "Café consumido ☕" },
-];
+import { useLanguage } from "@/contexts/LanguageContext";
 
 export const AboutSection = () => {
+  const { t } = useLanguage();
+
+  const skills = [
+    {
+      category: t("skills_frontend"),
+      icon: Code2,
+      items: ["HTML", "CSS", "JavaScript", "React", "TypeScript", "Tailwind CSS", "Framer Motion"],
+    },
+    {
+      category: t("skills_backend"),
+      icon: Database,
+      items: ["Node.js", "PostgreSQL", "MySQL", "Supabase"],
+    },
+    {
+      category: t("skills_tools"),
+      icon: Terminal,
+      items: ["Git", "Github", "Vite"],
+    },
+  ];
+
+  const stats = [
+    { value: "1+", label: t("stats_years") },
+    { value: "3+", label: t("stats_projects") },
+    { value: "2+", label: t("stats_clients") },
+    { value: "∞", label: t("stats_coffee") },
+  ];
+
   return (
     <section id="about" className="py-24 relative overflow-hidden scroll-mt-28">
       {/* Background Effects */}
@@ -42,30 +45,16 @@ export const AboutSection = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
           >
-            <p className="text-primary font-mono mb-4">{"<SobreMí />"}</p>
+            <p className="text-primary font-mono mb-4">{`<${t("nav_about")} />`}</p>
             <h2 className="text-4xl md:text-5xl font-bold mb-6">
-              <span className="text-foreground">Conoce al </span>
-              <span className="gradient-text">Desarrollador</span>
+              <span className="text-foreground">{t("about_subtitle").split(" ").slice(0, 2).join(" ")} </span>
+              <span className="gradient-text">{t("about_subtitle").split(" ").slice(2).join(" ")}</span>
             </h2>
 
             <div className="space-y-4 text-muted-foreground">
-              <p>
-                Soy un desarrollador full-stack apasionado por crear
-                experiencias digitales que combinan diseño atractivo con
-                funcionalidad robusta. Mi enfoque está en escribir código
-                limpio, escalable y mantenible.
-              </p>
-              <p>
-                Con experiencia en startups y proyectos freelance, he
-                desarrollado habilidades para trabajar tanto de forma
-                independiente como en equipo, siempre priorizando la
-                comunicación clara y los resultados medibles.
-              </p>
-              <p>
-                Cuando no estoy programando, probablemente me encuentres
-                explorando nuevas tecnologías, contribuyendo a proyectos
-                open-source, o disfrutando de una buena taza de café.
-              </p>
+              <p>{t("about_p1")}</p>
+              <p>{t("about_p2")}</p>
+              <p>{t("about_p3")}</p>
             </div>
 
             {/* Stats */}

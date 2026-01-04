@@ -1,13 +1,15 @@
 import { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useProjects } from "@/hooks/useProjects";
+import { useLanguage } from "@/contexts/LanguageContext";
 import type { Project } from "@/data/projects";
 import { ProjectCard } from "./ProjectCard";
 import { ProjectModal } from "./ProjectModal";
 
 export const ProjectsSection = () => {
   const { projects, isLoaded } = useProjects();
-  const [activeFilter, setActiveFilter] = useState("Todo");
+  const { t } = useLanguage();
+  const [activeFilter, setActiveFilter] = useState("Todo"); // Using key in logic, will translate display
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
   const allTags = useMemo(() => {
@@ -36,14 +38,13 @@ export const ProjectsSection = () => {
           transition={{ duration: 0.5 }}
           className="text-center mb-16"
         >
-          <p className="text-primary font-mono mb-4">{"<Proyectos />"}</p>
+          <p className="text-primary font-mono mb-4">{`<${t("nav_projects")} />`}</p>
           <h2 className="text-4xl md:text-5xl font-bold mb-4">
-            <span className="text-foreground">Mi </span>
-            <span className="gradient-text">Trabajo</span>
+            <span className="text-foreground">{t("projects_title").split(" ")[0]} </span>
+            <span className="gradient-text">{t("projects_title").split(" ").slice(1).join(" ")}</span>
           </h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
-            Una selección de proyectos que demuestran mis habilidades en
-            desarrollo frontend, backend y full-stack.
+            {t("projects_subtitle")}
           </p>
         </motion.div>
 
@@ -67,7 +68,7 @@ export const ProjectsSection = () => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              {tag}
+              {tag === "Todo" ? t("projects_filter_all") : tag}
             </motion.button>
           ))}
         </motion.div>
@@ -97,7 +98,7 @@ export const ProjectsSection = () => {
             className="text-center py-16"
           >
             <p className="text-muted-foreground">
-              No hay proyectos con este filtro.
+              {t("projects_empty")}
             </p>
           </motion.div>
         )}
