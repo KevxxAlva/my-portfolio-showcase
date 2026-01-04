@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://my-portfolio-showcase-ten.vercel.app/sitemap.xml
+Sitemap: https://my-portfolio-kevin-pi.vercel.app/sitemap.xml
