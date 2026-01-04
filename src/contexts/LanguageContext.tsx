@@ -14,6 +14,7 @@ const translations: Translations = {
   nav_home: { es: "Inicio", en: "Home" },
   nav_projects: { es: "Proyectos", en: "Projects" },
   nav_about: { es: "Sobre mí", en: "About" },
+  nav_services: { es: "Servicios", en: "Services" },
   nav_contact: { es: "Contacto", en: "Contact" },
   
   // Hero
@@ -33,6 +34,16 @@ const translations: Translations = {
   projects_filter_all: { es: "Todo", en: "All" },
   projects_empty: { es: "No hay proyectos con este filtro.", en: "No projects found with this filter." },
   
+  // Services
+  services_title: { es: "Mis Servicios", en: "My Services" },
+  services_subtitle: { es: "Soluciones digitales a medida para hacer crecer tu negocio", en: "Tailored digital solutions to grow your business" },
+  service_web_title: { es: "Desarrollo Web", en: "Web Development" },
+  service_web_desc: { es: "Sitios web rápidos, responsivos y modernos construidos con las últimas tecnologías.", en: "Fast, responsive, and modern websites built with the latest technologies." },
+  service_app_title: { es: "Aplicaciones Web", en: "Web Applications" },
+  service_app_desc: { es: "Aplicaciones complejas y escalables con funcionalidades avanzadas y gestión de datos.", en: "Complex and scalable applications with advanced features and data management." },
+  service_seo_title: { es: "Optimización & SEO", en: "Optimization & SEO" },
+  service_seo_desc: { es: "Mejora de rendimiento, velocidad de carga y visibilidad en motores de búsqueda.", en: "Performance improvement, load speed, and search engine visibility." },
+
   // About
   about_title: { es: "Sobre Mí", en: "About Me" },
   about_subtitle: { es: "Conoce al Desarrollador", en: "Meet the Developer" },
