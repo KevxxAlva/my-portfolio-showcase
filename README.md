@@ -2,7 +2,8 @@
 
 Un portafolio moderno y profesional diseñado para mostrar mis proyectos, habilidades y experiencia como desarrollador. Construido con las últimas tecnologías web para ofrecer una experiencia de usuario fluida, interactiva y visualmente atractiva.
 
-<img width="1349" height="638" alt="image" src="https://github.com/user-attachments/assets/9e195451-57d8-475e-9d4e-ec2265af45b2" />
+<img width="1349" height="638" alt="image" src="https://github.com/user-attachments/assets/b9537606-8cd1-42a1-ab55-98226c849d2e" />
+
 
 
 ## 🚀 Características
