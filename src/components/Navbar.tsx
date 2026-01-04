@@ -35,7 +35,7 @@ const navLinks = [
 const socialLinks = [
   { icon: Github, href: "https://github.com/KevxxAlva", label: "GitHub" },
   { icon: Discord, href: "https://discord.com/users/751454536031404062", label: "Discord" },
-  { icon: Mail, href: "kevinja1406@gmail.com", label: "Email" },
+  { icon: Mail, href: "mailto:kevinja1406@gmail.com", label: "Email" },
 ];
 
 export const Navbar = () => {
