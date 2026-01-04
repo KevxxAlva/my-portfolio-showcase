@@ -5,10 +5,12 @@ import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useProjects } from "@/hooks/useProjects";
 import { useTestimonials } from "@/hooks/useTestimonials";
+import { useMessages } from "@/hooks/useMessages";
 import { ProjectForm } from "@/components/admin/ProjectForm";
 import { ProjectList } from "@/components/admin/ProjectList";
 import { TestimonialForm } from "@/components/admin/TestimonialForm";
 import { TestimonialList } from "@/components/admin/TestimonialList";
+import { MessageList } from "@/components/admin/MessageList";
 import { useToast } from "@/hooks/use-toast";
 import type { Project } from "@/data/projects";
 import type { Testimonial } from "@/data/testimonials";
@@ -24,11 +26,12 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 
-type AdminTab = "projects" | "testimonials";
+type AdminTab = "projects" | "testimonials" | "messages";
 
 const Admin = () => {
   const { projects, isLoaded: projectsLoaded, addProject, updateProject, deleteProject } = useProjects();
   const { testimonials, isLoaded: testimonialsLoaded, addTestimonial, updateTestimonial, deleteTestimonial } = useTestimonials();
+  const { messages, isLoaded: messagesLoaded, deleteMessage } = useMessages();
   
   const [activeTab, setActiveTab] = useState<AdminTab>("projects");
   
@@ -41,6 +44,9 @@ const Admin = () => {
   const [showTestimonialForm, setShowTestimonialForm] = useState(false);
   const [editingTestimonial, setEditingTestimonial] = useState<Testimonial | null>(null);
   const [deleteTestimonialId, setDeleteTestimonialId] = useState<string | null>(null);
+
+  // Message State
+  const [deleteMessageId, setDeleteMessageId] = useState<string | null>(null);
 
   const { toast } = useToast();
   const navigate = useNavigate();
@@ -88,12 +94,20 @@ const Admin = () => {
     }
   };
 
+    // --- Messages Handlers ---
+  const handleDeleteMessage = () => {
+     if (deleteMessageId) {
+       deleteMessage(deleteMessageId);
+       setDeleteMessageId(null);
+     }
+  };
+
   const handleLogout = async () => {
     await supabase.auth.signOut();
     navigate("/login");
   };
 
-  if (!projectsLoaded || !testimonialsLoaded) {
+  if (!projectsLoaded || !testimonialsLoaded || !messagesLoaded) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="animate-pulse text-muted-foreground">Cargando...</div>
@@ -143,39 +157,50 @@ const Admin = () => {
               <LogOut className="h-4 w-4" />
               Cerrar Sesión
             </Button>
-            <Button
-              onClick={() => {
-                if (activeTab === "projects") {
-                  setEditingProject(null);
-                  setShowProjectForm(true);
-                } else {
-                  setEditingTestimonial(null);
-                  setShowTestimonialForm(true);
-                }
-              }}
-              className="gap-2 flex-1 md:flex-none"
-            >
-              <Plus className="h-4 w-4" />
-              {activeTab === "projects" ? "Nuevo proyecto" : "Nuevo testimonio"}
-            </Button>
+            {activeTab !== "messages" && (
+              <Button
+                onClick={() => {
+                  if (activeTab === "projects") {
+                    setEditingProject(null);
+                    setShowProjectForm(true);
+                  } else if (activeTab === "testimonials") {
+                    setEditingTestimonial(null);
+                    setShowTestimonialForm(true);
+                  }
+                }}
+                className="gap-2 flex-1 md:flex-none"
+              >
+                <Plus className="h-4 w-4" />
+                {activeTab === "projects" ? "Nuevo proyecto" : "Nuevo testimonio"}
+              </Button>
+            )}
           </div>
         </motion.div>
 
         {/* Tab Switcher */}
-        <div className="flex gap-4 mb-8 border-b border-white/10 pb-4">
+        <div className="flex gap-4 mb-8 border-b border-white/10 pb-4 overflow-x-auto">
            <button
              onClick={() => setActiveTab("projects")}
-             className={`pb-2 px-4 transition-colors relative ${activeTab === "projects" ? "text-primary" : "text-muted-foreground hover:text-foreground"}`}
+             className={`pb-2 px-4 transition-colors relative whitespace-nowrap ${activeTab === "projects" ? "text-primary" : "text-muted-foreground hover:text-foreground"}`}
            >
              Proyectos
              {activeTab === "projects" && <motion.div layoutId="tab" className="absolute bottom-[-17px] left-0 right-0 h-0.5 bg-primary" />}
            </button>
            <button
              onClick={() => setActiveTab("testimonials")}
-             className={`pb-2 px-4 transition-colors relative ${activeTab === "testimonials" ? "text-primary" : "text-muted-foreground hover:text-foreground"}`}
+             className={`pb-2 px-4 transition-colors relative whitespace-nowrap ${activeTab === "testimonials" ? "text-primary" : "text-muted-foreground hover:text-foreground"}`}
            >
              Testimonios
              {activeTab === "testimonials" && <motion.div layoutId="tab" className="absolute bottom-[-17px] left-0 right-0 h-0.5 bg-primary" />}
+           </button>
+           <button
+             onClick={() => setActiveTab("messages")}
+             className={`pb-2 px-4 transition-colors relative whitespace-nowrap flex items-center gap-2 ${activeTab === "messages" ? "text-primary" : "text-muted-foreground hover:text-foreground"}`}
+           >
+             <MessageSquare className="w-4 h-4" />
+             Mensajes
+             <span className="bg-primary/20 text-primary text-xs px-2 py-0.5 rounded-full">{messages.length}</span>
+             {activeTab === "messages" && <motion.div layoutId="tab" className="absolute bottom-[-17px] left-0 right-0 h-0.5 bg-primary" />}
            </button>
         </div>
 
@@ -282,14 +307,29 @@ const Admin = () => {
             </motion.div>
           </>
         )}
+
+         {/* --- MESSAGES CONTENT --- */}
+         {activeTab === "messages" && (
+           <motion.div
+             initial={{ opacity: 0, y: 20 }}
+             animate={{ opacity: 1, y: 0 }}
+           >
+              <MessageList 
+                messages={messages} 
+                onDelete={(id) => setDeleteMessageId(id)} 
+              />
+           </motion.div>
+         )}
+
       </div>
 
       {/* Delete Confirmation (Shared) */}
       <AlertDialog 
-        open={!!deleteProjectId || !!deleteTestimonialId} 
+        open={!!deleteProjectId || !!deleteTestimonialId || !!deleteMessageId} 
         onOpenChange={() => {
           setDeleteProjectId(null);
           setDeleteTestimonialId(null);
+          setDeleteMessageId(null);
         }}
       >
         <AlertDialogContent>
@@ -305,6 +345,7 @@ const Admin = () => {
               onClick={() => {
                 if (deleteProjectId) handleDeleteProject();
                 if (deleteTestimonialId) handleDeleteTestimonial();
+                if (deleteMessageId) handleDeleteMessage();
               }} 
               className="bg-destructive hover:bg-destructive/90"
             >
@@ -316,5 +357,4 @@ const Admin = () => {
     </div>
   );
 };
-
 export default Admin;
