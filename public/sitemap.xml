@@ -3,7 +3,7 @@
   <!-- Página principal -->
   <url>
     <loc>https://my-portfolio-kevin-pi.vercel.app/</loc>
-    <lastmod>2026-01-04</lastmod>
+    <lastmod>2026-01-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
@@ -11,7 +11,7 @@
   <!-- Login -->
   <url>
     <loc>https://my-portfolio-kevin-pi.vercel.app/login</loc>
-    <lastmod>2026-01-04</lastmod>
+    <lastmod>2026-01-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
