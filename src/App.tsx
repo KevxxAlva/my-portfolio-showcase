@@ -28,7 +28,6 @@ const PageLoader = () => (
 const App = () => (
   <ThemeProvider defaultTheme="dark">
     <LanguageProvider>
-      <QueryClientProvider client={queryClient}>
         <TooltipProvider>
           <GoogleAnalytics />
           <Toaster />
@@ -42,7 +41,9 @@ const App = () => (
                   path="/admin"
                   element={
                     <RequireAuth>
-                      <Admin />
+                      <QueryClientProvider client={queryClient}>
+                        <Admin />
+                      </QueryClientProvider>
                     </RequireAuth>
                   }
                 />
@@ -52,7 +53,6 @@ const App = () => (
             </Suspense>
           </BrowserRouter>
         </TooltipProvider>
-      </QueryClientProvider>
     </LanguageProvider>
   </ThemeProvider>
 );
