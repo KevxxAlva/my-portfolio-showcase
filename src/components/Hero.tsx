@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
 import { ArrowDown, Github, Linkedin, FileText } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -122,14 +121,11 @@ export const Hero = () => {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="max-w-4xl mx-auto text-center">
           {/* Greeting */}
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
+          <p
             className="text-primary font-mono mb-4 px-2"
           >
             {`<${t("hero_greeting")} />`}
-          </motion.p>
+          </p>
 
           {/* Name */}
           <div
@@ -140,17 +136,14 @@ export const Hero = () => {
           </div>
 
           {/* Typewriter Effect */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
+          <div
             className="h-12 md:h-16 flex items-center justify-center mb-6 px-2"
           >
             <span className="text-xl sm:text-2xl md:text-4xl text-muted-foreground font-light">
               {displayText}
             </span>
             <span className="w-1 h-8 md:h-10 bg-primary ml-1 animate-pulse" />
-          </motion.div>
+          </div>
 
           {/* Description */}
           <p
@@ -160,10 +153,7 @@ export const Hero = () => {
           </p>
 
           {/* CTA Buttons */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.4 }}
+          <div
             className="flex flex-wrap gap-4 justify-center"
           >
             <Button
@@ -204,25 +194,20 @@ export const Hero = () => {
                 CV
               </a>
             </Button>
-          </motion.div>
+          </div>
         </div>
       </div>
 
       {/* Scroll Indicator */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1, duration: 0.5 }}
+      <div
         className="absolute bottom-8 left-1/2 -translate-x-1/2"
       >
-        <motion.div
-          animate={{ y: [0, 10, 0] }}
-          transition={{ duration: 1.5, repeat: Infinity }}
-          className="w-6 h-10 border-2 border-muted-foreground/50 rounded-full flex justify-center pt-2"
+        <div
+          className="w-6 h-10 border-2 border-muted-foreground/50 rounded-full flex justify-center pt-2 animate-bounce"
         >
           <div className="w-1 h-2 bg-primary rounded-full" />
-        </motion.div>
-      </motion.div>
+        </div>
+      </div>
     </section>
   );
 };

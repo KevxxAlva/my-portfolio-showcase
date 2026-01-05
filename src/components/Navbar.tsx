@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
+import { LazyMotion, domAnimation, m } from "framer-motion";
 import { Menu, X, Github, Linkedin, Mail } from "lucide-react";
 import { ThemeToggle } from "./ThemeToggle";
 import { LanguageToggle } from "./LanguageToggle";
@@ -91,143 +91,144 @@ export const Navbar = () => {
   };
 
   return (
-    <motion.nav
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      transition={{ duration: 0.5, ease: "easeOut" }}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? "glass-strong py-3" : "bg-transparent py-6"
-      }`}
-    >
-      <div className="w-full max-w-7xl mx-auto px-6 sm:px-8 flex items-center justify-between">
-        {/* Logo */}
-        <motion.a
-          href="#hero"
-          onClick={(e) => {
-            e.preventDefault();
-            scrollToSection("#hero");
-          }}
-          className="flex items-center"
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-        >
-          <div className="flex items-center gap-2 bg-primary/10 p-2 rounded-lg border border-primary/20">
-            <span className="font-bold text-xl tracking-tighter text-primary">&lt;KA /&gt;</span>
-          </div>
-        </motion.a>
-
-        {/* Desktop Navigation */}
-        <div className="hidden md:flex items-center gap-8">
-          {navLinks.map((link) => (
-            <motion.a
-              key={link.name}
-              href={link.href}
-              onClick={(e) => {
-                e.preventDefault();
-                scrollToSection(link.href);
-              }}
-              className="text-muted-foreground hover:text-primary transition-colors relative group"
-              whileHover={{ y: -2 }}
-            >
-              {link.name}
-              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full" />
-            </motion.a>
-          ))}
-        </div>
-
-        {/* Social Links - Desktop */}
-        <div className="hidden md:flex items-center gap-4">
-          <ThemeToggle />
-          <LanguageToggle />
-          {socialLinks.map((link) => (
-            <motion.a
-              key={link.label}
-              href={link.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-muted-foreground hover:text-primary transition-colors"
-              whileHover={{ scale: 1.2, y: -2 }}
-              whileTap={{ scale: 0.9 }}
-              aria-label={link.label}
-            >
-              <link.icon size={20} />
-            </motion.a>
-          ))}
-        </div>
-
-        {/* Mobile Menu Button */}
-        <div className="md:hidden z-50 mr-6">
-          <motion.button
-            className="text-foreground p-2 hover:bg-primary/10 rounded-lg transition-colors"
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            whileTap={{ scale: 0.9 }}
-            aria-label="Toggle menu"
-          >
-            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </motion.button>
-        </div>
-      </div>
-
-      {/* Mobile Menu */}
-      <motion.div
-        initial={false}
-        animate={{
-          height: isMobileMenuOpen ? "auto" : 0,
-          opacity: isMobileMenuOpen ? 1 : 0,
-        }}
-        transition={{ duration: 0.3 }}
-        className="md:hidden overflow-hidden glass-strong mt-2 mx-4 rounded-lg"
+    <LazyMotion features={domAnimation}>
+      <m.nav
+        initial={{ y: -100 }}
+        animate={{ y: 0 }}
+        transition={{ duration: 0.5, ease: "easeOut" }}
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+          isScrolled ? "glass-strong py-3" : "bg-transparent py-6"
+        }`}
       >
-        <div className="p-6 flex flex-col gap-4">
-          {navLinks.map((link) => (
-            <a
-              key={link.name}
-              href={link.href}
-              onClick={(e) => {
-                e.preventDefault();
-                setIsMobileMenuOpen(false);
-                // Wait for the menu closing animation to finish (300ms) before scrolling
-                setTimeout(() => {
-                  const element = document.querySelector(link.href);
-                  if (element) {
-                    const headerOffset = 80;
-                    const elementPosition = element.getBoundingClientRect().top;
-                    const offsetPosition = elementPosition + window.scrollY - headerOffset;
+        <div className="w-full max-w-7xl mx-auto px-6 sm:px-8 flex items-center justify-between">
+          {/* Logo */}
+          <m.a
+            href="#hero"
+            onClick={(e) => {
+              e.preventDefault();
+              scrollToSection("#hero");
+            }}
+            className="flex items-center"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <div className="flex items-center gap-2 bg-primary/10 p-2 rounded-lg border border-primary/20">
+              <span className="font-bold text-xl tracking-tighter text-primary">&lt;KA /&gt;</span>
+            </div>
+          </m.a>
 
-                    window.scrollTo({
-                      top: offsetPosition,
-                      behavior: "smooth",
-                    });
-                  }
-                }, 300);
-              }}
-              className="block w-full text-left text-muted-foreground hover:text-primary transition-colors py-2"
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex items-center gap-8">
+            {navLinks.map((link) => (
+              <m.a
+                key={link.name}
+                href={link.href}
+                onClick={(e) => {
+                  e.preventDefault();
+                  scrollToSection(link.href);
+                }}
+                className="text-muted-foreground hover:text-primary transition-colors relative group"
+                whileHover={{ y: -2 }}
+              >
+                {link.name}
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full" />
+              </m.a>
+            ))}
+          </div>
+
+          {/* Social Links - Desktop */}
+          <div className="hidden md:flex items-center gap-4">
+            <ThemeToggle />
+            <LanguageToggle />
+            {socialLinks.map((link) => (
+              <m.a
+                key={link.label}
+                href={link.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-muted-foreground hover:text-primary transition-colors"
+                whileHover={{ scale: 1.2, y: -2 }}
+                whileTap={{ scale: 0.9 }}
+                aria-label={link.label}
+              >
+                <link.icon size={20} />
+              </m.a>
+            ))}
+          </div>
+
+          {/* Mobile Menu Button */}
+          <div className="md:hidden z-50 mr-6">
+            <m.button
+              className="text-foreground p-2 hover:bg-primary/10 rounded-lg transition-colors"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              whileTap={{ scale: 0.9 }}
+              aria-label="Toggle menu"
             >
-              {link.name}
-            </a>
-          ))}
-          <div className="flex items-center justify-between pt-4 border-t border-border">
-            <div className="flex gap-2">
-              <ThemeToggle />
-              <LanguageToggle />
-            </div>
-            <div className="flex gap-4">
-              {socialLinks.map((link) => (
-                <a
-                  key={link.label}
-                  href={link.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-muted-foreground hover:text-primary transition-colors"
-                  aria-label={link.label}
-                >
-                  <link.icon size={20} />
-                </a>
-              ))}
-            </div>
+              {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </m.button>
           </div>
         </div>
-      </motion.div>
-    </motion.nav>
+
+        {/* Mobile Menu */}
+        <m.div
+          initial={false}
+          animate={{
+            height: isMobileMenuOpen ? "auto" : 0,
+            opacity: isMobileMenuOpen ? 1 : 0,
+          }}
+          transition={{ duration: 0.3 }}
+          className="md:hidden overflow-hidden glass-strong mt-2 mx-4 rounded-lg"
+        >
+          <div className="p-6 flex flex-col gap-4">
+            {navLinks.map((link) => (
+              <a
+                key={link.name}
+                href={link.href}
+                onClick={(e) => {
+                  e.preventDefault();
+                  setIsMobileMenuOpen(false);
+                  setTimeout(() => {
+                    const element = document.querySelector(link.href);
+                    if (element) {
+                      const headerOffset = 80;
+                      const elementPosition = element.getBoundingClientRect().top;
+                      const offsetPosition = elementPosition + window.scrollY - headerOffset;
+
+                      window.scrollTo({
+                        top: offsetPosition,
+                        behavior: "smooth",
+                      });
+                    }
+                  }, 300);
+                }}
+                className="block w-full text-left text-muted-foreground hover:text-primary transition-colors py-2"
+              >
+                {link.name}
+              </a>
+            ))}
+            <div className="flex items-center justify-between pt-4 border-t border-border">
+              <div className="flex gap-2">
+                <ThemeToggle />
+                <LanguageToggle />
+              </div>
+              <div className="flex gap-4">
+                {socialLinks.map((link) => (
+                  <a
+                    key={link.label}
+                    href={link.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-muted-foreground hover:text-primary transition-colors"
+                    aria-label={link.label}
+                  >
+                    <link.icon size={20} />
+                  </a>
+                ))}
+              </div>
+            </div>
+          </div>
+        </m.div>
+      </m.nav>
+    </LazyMotion>
   );
 };
