@@ -5,9 +5,11 @@ export const GoogleAnalytics = () => {
 
   useEffect(() => {
     if (!gaId) return;
-
-    // Avoid adding duplicate scripts
-    if (document.querySelector(`script[src*="googletagmanager.com/gtag/js"]`)) return;
+    
+    // Delay initialization to prioritize Core Web Vitals
+    const timer = setTimeout(() => {
+      // Avoid adding duplicate scripts
+      if (document.querySelector(`script[src*="googletagmanager.com/gtag/js"]`)) return;
 
     // Load the Google Analytics script
     const script = document.createElement("script");
@@ -23,7 +25,10 @@ export const GoogleAnalytics = () => {
       gtag('js', new Date());
       gtag('config', '${gaId}');
     `;
-    document.head.appendChild(inlineScript);
+      document.head.appendChild(inlineScript);
+    }, 3000); // 3 second delay
+
+    return () => clearTimeout(timer);
   }, [gaId]);
 
   return null;
