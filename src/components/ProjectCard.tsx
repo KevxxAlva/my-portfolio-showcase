@@ -35,6 +35,7 @@ export const ProjectCard = ({ project, index, onOpenModal }: ProjectCardProps) =
         <img
           src={project.imagenUrl}
           alt={project.titulo}
+          loading="lazy"
           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent dark:from-[#09090b] opacity-90" />
