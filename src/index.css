@@ -147,64 +147,73 @@
 }
 
 @layer components {
+
+  /* Performance Optimization: Reduce blur/shadows on mobile */
   .glass {
-    @apply bg-card/60 backdrop-blur-xl border border-glass-border/30;
+    @apply bg-card/80 border border-glass-border/30;
+  }
+  
+  /* Enable backdrop-filter only on larger screens where GPU is stronger */
+  @media (min-width: 768px) {
+    .glass {
+      @apply bg-card/60 backdrop-blur-xl;
+    }
   }
 
   .glass-strong {
-    @apply bg-card/80 backdrop-blur-2xl border border-glass-border/50;
+    @apply bg-card/90 border border-glass-border/50;
   }
 
+  @media (min-width: 768px) {
+    .glass-strong {
+      @apply bg-card/80 backdrop-blur-2xl;
+    }
+  }
+
+  /* Reduce shadow complexity on mobile */
   .neon-glow {
-    box-shadow: var(--shadow-neon);
+    box-shadow: none;
+  }
+  
+  @media (min-width: 768px) {
+    .neon-glow {
+      box-shadow: var(--shadow-neon);
+    }
   }
 
   .neon-text {
-    text-shadow: 0 0 20px hsl(var(--neon-cyan) / 0.5);
+    text-shadow: none;
+  }
+
+  @media (min-width: 768px) {
+    .neon-text {
+      text-shadow: 0 0 20px hsl(var(--neon-cyan) / 0.5);
+    }
   }
 
   .gradient-text {
     @apply bg-clip-text text-transparent;
     background-image: var(--gradient-neon);
+    /* Ensure hardware acceleration for text gradients */
+    transform: translateZ(0); 
   }
 
   .hover-lift {
-    @apply transition-all duration-300 ease-out;
+    @apply transition-transform duration-300 ease-out; /* Removed shadow transition for perf */
   }
 
   .hover-lift:hover {
     transform: translateY(-4px);
-    box-shadow: var(--shadow-neon);
+    /* box-shadow: var(--shadow-neon); Removed for perf */
   }
-}
-
-@layer utilities {
-  .animate-typewriter {
-    overflow: hidden;
-    border-right: 2px solid hsl(var(--neon-cyan));
-    white-space: nowrap;
-    animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
-  }
-
-  @keyframes typing {
-    from {
-      width: 0;
-    }
-    to {
-      width: 100%;
+  
+  @media (min-width: 768px) {
+    .hover-lift:hover {
+        box-shadow: var(--shadow-neon);
     }
   }
 
-  @keyframes blink-caret {
-    from,
-    to {
-      border-color: transparent;
-    }
-    50% {
-      border-color: hsl(var(--neon-cyan));
-    }
-  }
-
+  /* Optimized Background Grid */
   .bg-grid {
     background-image: linear-gradient(
         hsl(var(--border) / 0.3) 1px,
@@ -212,5 +221,8 @@
       ),
       linear-gradient(90deg, hsl(var(--border) / 0.3) 1px, transparent 1px);
     background-size: 50px 50px;
+    will-change: transform; /* Hint to browser */
+    transform: translateZ(0); /* Force GPU layer */
   }
+
 }
