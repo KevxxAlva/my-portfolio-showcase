@@ -18,6 +18,8 @@
       content="B4bGl0IcQNRaDWOw1BoQrYCTMkuUjQd7ehnh_d66SdQ"
     />
     <title>Kevin Alvarez | Desarrollador Full Stack</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
     <meta
       name="description"
@@ -90,11 +92,18 @@
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
     <!-- Fonts loaded deferred -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Fonts loaded deferred (Non-blocking) -->
     <link
       href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
+      media="print"
+      onload="this.media='all'"
     />
+    <noscript>
+      <link
+        href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet"
+      />
+    </noscript>
   </body>
 </html>
