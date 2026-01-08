@@ -19,8 +19,19 @@ export default defineConfig(({ mode }) => ({
   },
   build: {
     chunkSizeWarningLimit: 1600,
+    cssCodeSplit: true,
+    cssMinify: true,
+    rollupOptions: {
       output: {
         manualChunks: undefined,
+        // Optimize CSS loading
+        assetFileNames: (assetInfo) => {
+          if (assetInfo.name && assetInfo.name.endsWith('.css')) {
+            return 'assets/[name]-[hash][extname]';
+          }
+          return 'assets/[name]-[hash][extname]';
+        },
       },
+    },
   },
 }));
