@@ -113,7 +113,7 @@ export const Navbar = () => {
             whileTap={{ scale: 0.95 }}
           >
             <img 
-                src="/logo.png" 
+                src="/logo.webp" 
                 alt="Kevin Alvarez Logo" 
                 width={50} 
                 height={50} 
