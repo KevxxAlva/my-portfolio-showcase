@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
 import { type Project } from "@/data/projects";
-import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+
+// Dynamic import for Supabase to reduce initial bundle size
+const getSupabase = () => import("@/integrations/supabase/client").then(m => m.supabase);
 
 export const useProjects = () => {
   const [projects, setProjects] = useState<Project[]>([]);
@@ -10,6 +12,7 @@ export const useProjects = () => {
 
   const fetchProjects = async () => {
     try {
+      const supabase = await getSupabase();
       const { data, error } = await supabase
         .from("projects")
         .select("*")
@@ -51,6 +54,7 @@ export const useProjects = () => {
 
   const addProject = async (project: Omit<Project, "id">) => {
     try {
+      const supabase = await getSupabase();
       const dbProject = {
         titulo: project.titulo,
         descripcion: project.descripcion,
@@ -99,6 +103,7 @@ export const useProjects = () => {
 
   const updateProject = async (id: string, updates: Partial<Project>) => {
     try {
+      const supabase = await getSupabase();
       const dbUpdates: any = {};
       if (updates.titulo) dbUpdates.titulo = updates.titulo;
       if (updates.descripcion) dbUpdates.descripcion = updates.descripcion;
@@ -136,6 +141,7 @@ export const useProjects = () => {
 
   const deleteProject = async (id: string) => {
     try {
+      const supabase = await getSupabase();
       const { error } = await supabase.from("projects").delete().eq("id", id);
 
       if (error) throw error;

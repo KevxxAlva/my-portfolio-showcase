@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
 import emailjs from "@emailjs/browser";
 import { motion } from "framer-motion";
 import { Send, Mail, MapPin, Facebook, Instagram } from "lucide-react";
@@ -112,6 +111,8 @@ export const ContactSection = () => {
     setIsSubmitting(true);
 
     try {
+      // Dynamic import of Supabase - only loaded when form is submitted
+      const { supabase } = await import("@/integrations/supabase/client");
       const { error: supabaseError } = await supabase
         .from('contact_messages')
         .insert([

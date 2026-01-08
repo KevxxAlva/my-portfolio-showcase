@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
 import { type Testimonial } from "@/data/testimonials";
-import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+
+// Dynamic import for Supabase to reduce initial bundle size
+const getSupabase = () => import("@/integrations/supabase/client").then(m => m.supabase);
 
 export const useTestimonials = () => {
   const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
@@ -10,6 +12,7 @@ export const useTestimonials = () => {
 
   const fetchTestimonials = async () => {
     try {
+      const supabase = await getSupabase();
       const { data, error } = await supabase
         .from("testimonials")
         .select("*")
@@ -41,6 +44,7 @@ export const useTestimonials = () => {
 
   const addTestimonial = async (testimonial: Omit<Testimonial, "id">) => {
     try {
+      const supabase = await getSupabase();
       const dbTestimonial = {
         name: testimonial.name,
         role: testimonial.role,
@@ -79,6 +83,7 @@ export const useTestimonials = () => {
 
   const updateTestimonial = async (id: string, updates: Partial<Testimonial>) => {
     try {
+      const supabase = await getSupabase();
       const dbUpdates: any = {};
       if (updates.name) dbUpdates.name = updates.name;
       if (updates.role) dbUpdates.role = updates.role;
@@ -107,6 +112,7 @@ export const useTestimonials = () => {
 
   const deleteTestimonial = async (id: string) => {
     try {
+      const supabase = await getSupabase();
       const { error } = await supabase.from("testimonials").delete().eq("id", id);
 
       if (error) throw error;
@@ -130,3 +136,4 @@ export const useTestimonials = () => {
     deleteTestimonial,
   };
 };
+

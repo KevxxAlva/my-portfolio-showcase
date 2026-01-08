@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
 import { type ContactMessage } from "@/data/messages";
-import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+
+// Dynamic import for Supabase to reduce initial bundle size
+const getSupabase = () => import("@/integrations/supabase/client").then(m => m.supabase);
 
 export const useMessages = () => {
   const [messages, setMessages] = useState<ContactMessage[]>([]);
@@ -10,6 +12,7 @@ export const useMessages = () => {
 
   const fetchMessages = async () => {
     try {
+      const supabase = await getSupabase();
       // Note: Assuming 'contact_messages' table uses 'created_at' column
       const { data, error } = await supabase
         .from("contact_messages")
@@ -43,6 +46,7 @@ export const useMessages = () => {
 
   const deleteMessage = async (id: string) => {
     try {
+      const supabase = await getSupabase();
       const { error } = await supabase.from("contact_messages").delete().eq("id", id);
       if (error) throw error;
       setMessages(messages.filter((m) => m.id !== id));
@@ -67,3 +71,4 @@ export const useMessages = () => {
     refreshMessages: fetchMessages,
   };
 };
+
